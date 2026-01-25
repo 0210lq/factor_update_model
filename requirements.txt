@@ -1,0 +1,22 @@
+# 因子数据更新模块依赖包
+
+# 数据处理和科学计算
+pandas>=2.0.0
+numpy>=1.20.0
+scipy>=1.10.0
+
+# 数据库连接
+PyMySQL>=1.0.0
+SQLAlchemy>=1.4.0  # L4数据库连接使用
+
+# 配置文件处理
+PyYAML>=6.0
+openpyxl>=3.0.0
+xlrd>=2.0.0
+
+# 日期时间处理
+python-dateutil>=2.8.0
+
+# 测试框架
+pytest>=7.0.0
+pytest-cov>=4.0.0

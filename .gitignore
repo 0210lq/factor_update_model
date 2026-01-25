@@ -1,0 +1,140 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# 配置文件（包含敏感信息）
+# 新目录结构 (config/)
+config/config.yaml
+config/config_project/sql_connection.yaml
+config/config_project/dataUpdate_sql.yaml
+config/config_project/L4_config/*.py
+!config/config_project/L4_config/__init__.py
+
+# 旧目录结构 (保持兼容)
+config_project/sql_connection.yaml
+config_project/L4_config/*.py
+!config_project/L4_config/__init__.py
+config_path/
+
+# 通用 YAML 规则
+*.yaml
+!*.yaml.example
+
+# 数据文件
+*.csv
+*.xlsx
+*.xls
+!*config*.xlsx
+!*template*.xlsx
+*.mat
+*.h5
+*.hdf5
+*.parquet
+*.feather
+
+# 日志文件
+logs/
+*.log
+log/
+*.log.*
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE和编辑器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.code-workspace
+
+# 测试和覆盖率
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# MyPy类型检查
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# 操作系统
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+nul
+
+# 输出数据目录
+output/
+data/
+results/
+
+# 备份文件
+backup/
+*.backup
+
+# 测试数据目录
+test_data/
+
+# Claude Code 配置
+.claude/

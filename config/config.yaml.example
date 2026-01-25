@@ -1,0 +1,39 @@
+# Factor Update Model 主配置文件
+#
+# 使用方法:
+# 1. 复制此文件为 config.yaml
+# 2. 填入实际的配置值
+# 3. config.yaml 已在 .gitignore 中，不会被提交到 git
+#
+# 环境变量优先级高于此配置文件
+# 环境变量命名规则: FACTOR_UPDATE_{KEY} (大写，点号替换为下划线)
+# 例如: database.host -> FACTOR_UPDATE_DATABASE_HOST
+
+# 数据库配置
+database:
+  host: your_host_here              # 数据库主机地址
+  port: 3306                        # 数据库端口
+  user: your_username               # 数据库用户名
+  password: your_password           # 数据库密码
+  database: data_prepared_new       # 数据库名称
+
+# 数据更新配置
+update:
+  # 因子数据回滚天数 (用于填补空缺)
+  factor_rollback_days: 3
+  # 时间序列回滚天数
+  timeseries_rollback_days: 10
+  # 默认是否保存到 SQL
+  save_to_sql: true
+
+# 日志配置
+logging:
+  level: INFO                       # 日志级别: DEBUG, INFO, WARNING, ERROR
+  max_file_size_mb: 10              # 单个日志文件最大大小 (MB)
+  backup_count: 5                   # 保留的日志文件数量
+
+# 路径配置 (可选，通常由 global_dic.py 自动计算)
+# paths:
+#   input_factor_jy: /path/to/jy/factor
+#   input_factor_wind: /path/to/wind/factor
+#   output_factor_exposure: /path/to/output/exposure
