@@ -95,8 +95,8 @@ def config_path_processing():
     current_file_path = Path(__file__).resolve()
     top_dir_name = get_top_dir_path(current_file_path, levels_up=3)
 
-    # 配置文件路径（新目录结构）
-    inputpath_config = project_root / 'config' / 'config_path' / 'data_update_path_config.xlsx'
+    # 配置文件路径（统一目录结构）
+    inputpath_config = project_root / 'config' / 'legacy' / 'data_update_path_config.xlsx'
 
     # 兼容旧目录结构
     if not inputpath_config.exists():

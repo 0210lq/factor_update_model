@@ -32,28 +32,27 @@ env/
 *.ipynb
 
 # 配置文件（包含敏感信息）
-# 新整合配置结构 (config/)
+# 统一配置结构 (config/)
 config/database.yaml
+config/tables/dataUpdate_sql.yaml.local
 !config/database.yaml.example
 !config/app_config.yaml
-!config/tables/*.yaml
+!config/tables/*.example
+!config/legacy/*.xlsx
 
-# 旧目录结构 (保持兼容)
-config_project/sql_connection.yaml
-config_project/L4_config/*.py
-!config_project/L4_config/__init__.py
+# 旧目录结构 (已废弃，保留兼容)
+config_project/
+config_path/
+!config_project/*.example
 
 # 通用 YAML 敏感文件规则
 **/sql_connection.yaml
 !**/*.yaml.example
 
-# 数据库表配置（包含连接字符串和密码）
-config_project/dataUpdate_sql.yaml
-config/tables/dataUpdate_sql.yaml
-
 # 测试和检查脚本（包含敏感信息）
 check_database.py
 test_db_connection.py
+compare_databases.py
 
 # 数据文件
 *.csv

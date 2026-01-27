@@ -33,9 +33,9 @@ class timeSeries_data_update:
     def _load_db_config(self):
         """加载数据库配置信息"""
         try:
-            # 使用新的 config 目录结构
-            base_dir = os.path.join(get_config_dir(), 'config_project')
-            for fname in ['sql_connection.yaml', 'sql_connection.yaml.example']:
+            # 使用统一的 config 目录结构
+            base_dir = get_config_dir()
+            for fname in ['database.yaml', 'database.yaml.example']:
                 cfg_file = os.path.join(base_dir, fname)
                 if os.path.exists(cfg_file):
                     with open(cfg_file, 'r', encoding='utf-8') as f:
@@ -43,7 +43,7 @@ class timeSeries_data_update:
                     if 'database' in config:
                         self.logger.info(f"数据库配置加载成功: {fname}")
                         return config['database']
-            raise FileNotFoundError("未找到数据库配置文件，请在 config_project/ 下提供 sql_connection.yaml")
+            raise FileNotFoundError("未找到数据库配置文件，请在 config/ 下提供 database.yaml")
         except Exception as e:
             self.logger.error(f"加载数据库配置失败: {str(e)}")
             raise
