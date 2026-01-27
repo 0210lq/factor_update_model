@@ -1,0 +1,286 @@
+# ============================================================
+# Factor Update Model - 主配置文件
+# ============================================================
+# 整合了原有的多个配置文件：
+# - data_update_path_config.xlsx (路径配置)
+# - data_source_priority_config.xlsx (数据源优先级)
+# - time_tools_config.xlsx (时间配置)
+# - 代码中的硬编码常量
+# ============================================================
+
+# ------------------------------------------------------------
+# 应用基础配置
+# ------------------------------------------------------------
+app:
+  name: "Factor Update Model"
+  version: "1.0.0"
+  encoding: "gbk"  # CSV 文件默认编码
+
+# ------------------------------------------------------------
+# 日期常量配置 (原代码中硬编码的日期)
+# ------------------------------------------------------------
+dates:
+  # 因子数据回退起始日期
+  factor_fallback_start: "2023-06-01"
+  # YG因子暴露度回退起始日期
+  yg_factor_fallback_start: "2024-07-05"
+  # JY旧数据分界日期
+  jy_old_data_cutoff: "20200531"
+
+# ------------------------------------------------------------
+# 数据源优先级配置
+# ------------------------------------------------------------
+# rank 越小优先级越高
+data_source_priority:
+  factor:
+    - source_name: "jy"
+      rank: 1
+    - source_name: "wind"
+      rank: 2
+
+# ------------------------------------------------------------
+# 时间工具配置
+# ------------------------------------------------------------
+time_tools:
+  critical_time:
+    # 评分数据更新时间
+    time_1:
+      time: "18:30:00"
+      description: "rrScore_update"
+    # 市场数据更新时间
+    time_2:
+      time: "18:30:00"
+      description: "MktData_update"
+    # 因子数据更新时间
+    time_3:
+      time: "18:30:00"
+      description: "FactorData_update"
+
+# ------------------------------------------------------------
+# 路径配置
+# ------------------------------------------------------------
+# 路径模式说明:
+#   absolute: 绝对路径 (从磁盘根目录开始)
+#   relative: 相对路径 (从项目根目录开始)
+#   config:   配置相对路径 (从 config 目录开始)
+# ------------------------------------------------------------
+
+paths:
+  # === 基础目录 ===
+  base_folders:
+    input_folder:
+      path: "Data_Original"
+      mode: "absolute"
+    output_folder:
+      path: "Data_prepared_new"
+      mode: "absolute"
+    config_folder:
+      path: "config_project"
+      mode: "relative"
+    portfolio_folder:
+      path: "Portfolio_new"
+      mode: "absolute"
+    l4_folder:
+      path: "OneDrive"
+      mode: "absolute"
+
+  # === 输入路径 ===
+  input:
+    # Wind 数据源
+    wind_stock: "data_wind/stockdata"
+    wind_hkstock: "data_wind/hkstockdata"
+    wind_indexdata: "data_wind/index_data"
+    wind_indexcomponent: "data_wind/index_component"
+    wind_etf: "data_wind/etf_data"
+    wind_future: "data_wind/future_data"
+    wind_option: "data_wind/option_data"
+
+    # JY 数据源
+    jy_stock: "data_jy/mktData"
+    jy_hkstock: "data_jy/input_new/RawHKMktData"
+    jy_indexdata: "data_jy/indexMktData"
+    jy_indexcomponent: "data_jy/index_component"
+
+    # Tushare 数据源
+    tushare_hkstock: "data_tushare/mkt_data/HKStockData"
+    tushare_indexdata: "data_tushare/index_data"
+
+    # 因子数据
+    factor_wind: "data_windDB/output_new/FactorRet"
+    factor_jy: "data_jy/output_new/FactorRet"
+    factor_jy_old: "data_jy/output_old/FactorRet"
+
+    # 协方差和特异风险
+    factor_cov_jy: "data_jy/covariance"
+    factor_cov_wind: "data_windDB/covariance"
+    factor_specific_jy: "data_jy/specificrisk"
+    factor_specific_wind: "data_windDB/specificrisk"
+
+    # 宏观数据
+    macro_m1m2: "data_macro/M1M2"
+    macro_shibor: "data_macro/Shibor"
+    macro_cpi: "data_macro/CPI"
+    macro_ppi: "data_macro/PPI"
+    macro_pmi: "data_macro/PMI"
+    macro_bonds: "data_macro/ChinaGovernmentBonds"
+    macro_social_finance: "data_macro/SocialFinance"
+
+    # 其他数据
+    vix: "data_vix"
+    large_order: "data_largeorder"
+    leverage_buying: "data_leveragebuying"
+
+  # === 输出路径 ===
+  output:
+    # 指数相关
+    indexdata: "data_index/index_data"
+    indexexposure: "data_index/index_exposure"
+    indexexposure_yg: "data_index/index_ygexposure"
+    indexcomponent: "data_index/index_component"
+
+    # 股票数据
+    stock: "data_stock"
+    hkstock: "data_hkstock"
+
+    # VIX
+    vix: "data_vix"
+
+    # 因子数据输出
+    factor_exposure: "data_factor/exposure"
+    factor_return: "data_factor/return"
+    factor_stockpool: "data_factor/stockpool"
+    factor_cov: "data_factor/covariance"
+    factor_specific_risk: "data_factor/specificrisk"
+
+    # ETF/期货/期权
+    etf: "data_etf"
+    future: "data_future"
+    option: "data_option"
+
+    # 时间序列
+    timeseries: "data_timeseries"
+
+    # 评分和组合
+    score: "data_score"
+    portfolio: "data_portfolio"
+
+  # === 其他数据路径 ===
+  other:
+    stock_universe: "other/StockUniverse_new.csv"
+    stock_universe_old: "other/StockUniverse.csv"
+
+  # === 配置文件路径 ===
+  config:
+    database: "database.yaml"
+    tables: "tables/dataUpdate_sql.yaml"
+    # 以下为旧配置文件路径（兼容）
+    data_source_priority_legacy: "config_project/data_source_priority_config.xlsx"
+    time_tools_legacy: "config_project/time_tools_config.xlsx"
+
+# ------------------------------------------------------------
+# 指数映射配置
+# ------------------------------------------------------------
+index_mapping:
+  # 完整名称到短名称的映射
+  short_names:
+    上证50: "sz50"
+    沪深300: "hs300"
+    中证500: "zz500"
+    中证1000: "zz1000"
+    中证2000: "zz2000"
+    中证A500: "zzA500"
+    国证2000: "gz2000"
+
+  # 月度数据映射
+  monthly_names:
+    上证50: "sz50Monthly"
+    沪深300: "csi300Monthly"
+    中证500: "zz500Monthly"
+    中证1000: "zz1000Monthly"
+    中证2000: "zz2000Monthly"
+    中证A500: "zzA500Monthly"
+    国证2000: "gz2000Monthly"
+
+  # 支持的指数列表
+  supported_indices:
+    - "上证50"
+    - "沪深300"
+    - "中证500"
+    - "中证1000"
+    - "中证2000"
+    - "中证A500"
+    - "国证2000"
+
+# ------------------------------------------------------------
+# 因子配置
+# ------------------------------------------------------------
+factors:
+  # Barra 因子
+  barra:
+    - "country"
+    - "size"
+    - "beta"
+    - "momentum"
+    - "resvola"
+    - "nlsize"
+    - "btop"
+    - "liquidity"
+    - "earningsyield"
+    - "growth"
+
+  # 行业因子 (中信一级行业)
+  industry:
+    - "石油石化"
+    - "煤炭"
+    - "有色金属"
+    - "电力及公用事业"
+    - "钢铁"
+    - "基础化工"
+    - "建筑"
+    - "建材"
+    - "轻工制造"
+    - "机械"
+    - "电力设备及新能源"
+    - "国防军工"
+    - "汽车"
+    - "商贸零售"
+    - "消费者服务"
+    - "家电"
+    - "纺织服装"
+    - "医药"
+    - "食品饮料"
+    - "农林牧渔"
+    - "银行"
+    - "非银行金融"
+    - "房地产"
+    - "综合金融"
+    - "交通运输"
+    - "电子"
+    - "通信"
+    - "计算机"
+    - "传媒"
+    - "综合"
+
+# ------------------------------------------------------------
+# 日志配置
+# ------------------------------------------------------------
+logging:
+  # 日志目录
+  log_dir: "logs"
+  # 处理日志子目录
+  processing_log_dir: "processing_log"
+  # 数据检查日志子目录
+  datacheck_log_dir: "DataCheck_log"
+  # 日志格式
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  # 日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+
+# ------------------------------------------------------------
+# 数据库批量写入配置
+# ------------------------------------------------------------
+database_batch:
+  # 默认批量大小
+  default_chunk_size: 20000
+  # 默认并行工作线程
+  default_workers: 4
