@@ -47,6 +47,14 @@ config_project/L4_config/*.py
 **/sql_connection.yaml
 !**/*.yaml.example
 
+# 数据库表配置（包含连接字符串和密码）
+config_project/dataUpdate_sql.yaml
+config/tables/dataUpdate_sql.yaml
+
+# 测试和检查脚本（包含敏感信息）
+check_database.py
+test_db_connection.py
+
 # 数据文件
 *.csv
 *.xlsx
