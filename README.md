@@ -25,22 +25,23 @@ export GLOBAL_TOOLSFUNC_new=/path/to/global_tools
 ### 3. 配置数据库连接
 
 ```bash
-cd config_project
+cd config
 
-# 复制所有配置模板
-copy sql_connection.yaml.example sql_connection.yaml
-copy dataUpdate_sql.yaml.example dataUpdate_sql.yaml
-copy l4_connection.yaml.example l4_connection.yaml
+# 复制配置模板
+copy database.yaml.example database.yaml
 
 # 编辑配置文件，填入实际的数据库连接信息
+# Windows: notepad database.yaml
+# Linux/Mac: vim database.yaml
 ```
 
 **必须配置的文件:**
 | 文件 | 用途 |
 |------|------|
-| `sql_connection.yaml` | 输出数据库连接 |
-| `dataUpdate_sql.yaml` | 数据表结构和连接 (替换所有 `db_url`) |
-| `l4_connection.yaml` | L4输入数据库连接 |
+| `config/database.yaml` | 数据库连接配置 |
+| `config/tables/dataUpdate_sql.yaml.local` | 数据表结构和连接（从示例复制） |
+
+**注意**：敏感配置文件（包含密码）不会被提交到git。
 
 ### 4. 运行
 
@@ -117,15 +118,23 @@ task = PythonOperator(
 factor_update_model/
 ├── factor_update_main.py       # 主入口
 ├── requirements.txt            # 依赖清单
-├── FactorData_update/          # 因子更新核心
-│   ├── factor_update.py        # 更新逻辑
-│   └── factor_preparing.py     # 数据准备
-├── TimeSeries_update/          # 时间序列更新
-├── Time_tools/                 # 时间工具
-├── global_setting/             # 全局配置
-├── setup_logger/               # 日志模块
-├── config_project/             # 配置文件
-├── config_path/                # 路径配置
+├── src/                        # 源代码目录
+│   ├── factor_update/          # 因子更新核心
+│   ├── timeseries_update/      # 时间序列更新
+│   ├── time_tools/             # 时间工具
+│   ├── global_setting/         # 全局配置
+│   ├── setup_logger/           # 日志模块
+│   └── config/                 # 配置管理
+├── config/                     # 配置文件目录
+│   ├── app_config.yaml         # 主配置文件
+│   ├── database.yaml           # 数据库连接（本地）
+│   ├── database.yaml.example   # 数据库连接示例
+│   ├── tables/                 # 表定义
+│   │   └── dataUpdate_sql.yaml.example
+│   └── legacy/                 # 旧格式配置（兼容）
+│       ├── data_source_priority_config.xlsx
+│       ├── time_tools_config.xlsx
+│       └── data_update_path_config.xlsx
 ├── docs/                       # 文档
 │   ├── 部署指南.md
 │   └── 数据需求清单.md
@@ -155,14 +164,18 @@ factor_update_model/
 
 支持 JY (聚源) 和 Wind 两个数据源，通过优先级配置自动切换：
 
-```
-config_project/data_source_priority_config.xlsx
-```
+**配置文件位置**：`config/legacy/data_source_priority_config.xlsx`
 
-| data_type | source_name | rank |
-|-----------|-------------|------|
-| factor | jy | 1 |
-| factor | wind | 2 |
+或使用新的YAML配置：`config/app_config.yaml`
+
+```yaml
+data_source_priority:
+  factor:
+    - source_name: "jy"
+      rank: 1
+    - source_name: "wind"
+      rank: 2
+```
 
 ---
 
@@ -180,35 +193,29 @@ config_project/data_source_priority_config.xlsx
 
 | 模板文件 | 目标文件 | 说明 |
 |----------|----------|------|
-| `sql_connection.yaml.example` | `sql_connection.yaml` | 输出数据库连接 |
-| `dataUpdate_sql.yaml.example` | `dataUpdate_sql.yaml` | 数据表结构定义 |
-| `l4_connection.yaml.example` | `l4_connection.yaml` | L4输入数据库连接 |
+| `config/database.yaml.example` | `config/database.yaml` | 数据库连接配置 |
+| `config/tables/dataUpdate_sql.yaml.example` | `config/tables/dataUpdate_sql.yaml.local` | 数据表结构定义 |
 
-**`dataUpdate_sql.yaml` 配置示例:**
+**`database.yaml` 配置示例:**
 ```yaml
-FactorExposrue:
-    table_name: "data_factorexposure"
-    db_url: "mysql+pymysql://用户名:密码@主机:3306/数据库名?autocommit=True"
-    chunk_size: 20000
-    workers: 4
-    private_keys:
-      - "valuation_date"
-      - 'code'
-    schema:
-      valuation_date: { type: String, length: 50 }
-      code: { type: String, length: 50 }
-      # ... 其他字段
+database:
+  host: "your-database-host"
+  port: 3306
+  user: "your-username"
+  password: "your-password"
+  database: "your-database-name"
 ```
 
 ### 其他配置文件
 
 | 文件 | 位置 | 说明 |
 |------|------|------|
-| 路径配置 | `config_path/data_update_path_config.xlsx` | 数据输入输出路径 |
-| 数据源优先级 | `config_project/data_source_priority_config.xlsx` | JY/Wind 优先级 |
-| 时间配置 | `config_project/time_tools_config.xlsx` | 更新时间策略 |
+| 主配置 | `config/app_config.yaml` | 路径、数据源、时间、因子等配置 |
+| 路径配置 | `config/legacy/data_update_path_config.xlsx` | 数据输入输出路径（旧格式） |
+| 数据源优先级 | `config/legacy/data_source_priority_config.xlsx` | JY/Wind 优先级（旧格式） |
+| 时间配置 | `config/legacy/time_tools_config.xlsx` | 更新时间策略（旧格式） |
 
-详细说明: [docs/配置说明.md](docs/配置说明.md)
+**注意**：legacy目录下的Excel配置文件保留用于向后兼容，推荐使用 `config/app_config.yaml`。
 
 ---
 
@@ -279,7 +286,7 @@ WARNING: factor_data在20250120数据存在缺失
 → 检查数据源目录下是否有对应日期的 `.mat` 文件
 
 **Q: 数据库连接失败**
-→ 检查 `sql_connection.yaml` 配置，或设置 `is_sql=False` 跳过数据库写入
+→ 检查 `config/database.yaml` 配置，或设置 `is_sql=False` 跳过数据库写入
 
 ---
 
