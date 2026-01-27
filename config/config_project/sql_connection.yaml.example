@@ -1,0 +1,22 @@
+# MySQL数据库连接配置示例
+#
+# 使用方法:
+# 1. 复制此文件为 sql_connection.yaml
+# 2. 填入实际的数据库连接信息
+# 3. sql_connection.yaml 已在 .gitignore 中，不会被提交到 git
+#
+# 此配置用于因子数据输出数据库连接
+
+database:
+  host: your_host_here              # 数据库主机地址 (例如: rm-xxx.mysql.rds.aliyuncs.com)
+  port: 3306                        # 数据库端口
+  user: your_username               # 数据库用户名
+  password: your_password           # 数据库密码
+  database: data_prepared_new       # 数据库名称
+
+# 可选: 连接池配置
+# pool:
+#   pool_size: 5                    # 连接池大小
+#   max_overflow: 10                # 最大溢出连接数
+#   pool_timeout: 30                # 连接超时时间（秒）
+#   pool_recycle: 3600              # 连接回收时间（秒）
