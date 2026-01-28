@@ -36,7 +36,7 @@ class ConfigLoader:
 
     def _find_config_dir(self, start_path: Optional[Path] = None, max_levels: int = 10) -> Optional[Path]:
         """
-        向上查找 config 目录
+        向上查找 config 目录（包含 app_config.yaml 的目录）
 
         Args:
             start_path: 起始路径，默认为当前文件所在目录
@@ -51,7 +51,8 @@ class ConfigLoader:
         current = start_path
         for _ in range(max_levels):
             config_dir = current / 'config'
-            if config_dir.is_dir():
+            # 确保是配置目录（包含 app_config.yaml），而非 Python 模块
+            if config_dir.is_dir() and (config_dir / 'app_config.yaml').exists():
                 return config_dir
 
             parent = current.parent
@@ -74,8 +75,8 @@ class ConfigLoader:
             print(f"警告: 未找到 config 目录")
             return
 
-        # 尝试加载 config.yaml
-        config_file = config_dir / 'config.yaml'
+        # 尝试加载 app_config.yaml
+        config_file = config_dir / 'app_config.yaml'
         if config_file.exists():
             self._config_path = config_file
             try:
@@ -85,8 +86,8 @@ class ConfigLoader:
                 print(f"警告: 加载配置文件失败: {e}")
                 self._config = {}
         else:
-            # 尝试加载 config.yaml.example 作为后备
-            example_file = config_dir / 'config.yaml.example'
+            # 尝试加载 app_config.yaml.example 作为后备
+            example_file = config_dir / 'app_config.yaml.example'
             if example_file.exists():
                 self._config_path = example_file
                 try:

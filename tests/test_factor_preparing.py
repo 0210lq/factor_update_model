@@ -29,7 +29,7 @@ class TestFactorDataPrepare:
     def test_module_import(self):
         """测试模块能否正常导入"""
         try:
-            from FactorData_update.factor_preparing import FactorData_prepare
+            from src.factor_update.factor_preparing import FactorData_prepare
             assert FactorData_prepare is not None
         except ImportError as e:
             pytest.skip(f"模块导入失败: {e}")
@@ -37,9 +37,9 @@ class TestFactorDataPrepare:
     @pytest.mark.unit
     def test_class_instantiation(self, mock_global_tools):
         """测试类能否正常实例化"""
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
                 fp = FactorData_prepare(TEST_DATE)
                 assert fp is not None
                 assert fp.available_date == TEST_DATE_INT
@@ -49,9 +49,9 @@ class TestFactorDataPrepare:
     @pytest.mark.unit
     def test_index_dic_processing(self, mock_global_tools):
         """测试 index_dic_processing 方法"""
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
                 fp = FactorData_prepare(TEST_DATE)
                 dic = fp.index_dic_processing()
 
@@ -64,9 +64,9 @@ class TestFactorDataPrepare:
     @pytest.mark.unit
     def test_index_dic_processing2(self, mock_global_tools):
         """测试 index_dic_processing2 方法"""
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
                 fp = FactorData_prepare(TEST_DATE)
                 dic = fp.index_dic_processing2()
 
@@ -149,10 +149,10 @@ class TestFactorExposureUpdate:
         """测试 JY 因子暴露度更新返回 DataFrame"""
         env = setup_test_env
 
-        with patch('FactorData_update.factor_preparing.gt', env['mock_gt']), \
-             patch('FactorData_update.factor_preparing.glv', env['mock_glv']):
+        with patch('src.factor_update.factor_preparing.gt', env['mock_gt']), \
+             patch('src.factor_update.factor_preparing.glv', env['mock_glv']):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
                 fp = FactorData_prepare(TEST_DATE)
                 result = fp.jy_factor_exposure_update()
 
@@ -258,7 +258,7 @@ class TestIndexExposureUpdate:
         expected_indices = ['上证50', '沪深300', '中证500', '中证1000', '中证2000', '中证A500', '国证2000']
 
         try:
-            from FactorData_update.factor_preparing import FactorData_prepare
+            from src.factor_update.factor_preparing import FactorData_prepare
             # 检查类中定义的指数字典
             fp_class = FactorData_prepare.__init__.__code__
             # 这里只检查预期的指数列表

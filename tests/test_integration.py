@@ -280,9 +280,9 @@ class TestConfigurationValidation:
     def test_required_config_files_exist(self, project_dir):
         """测试必需的配置文件存在"""
         required_files = [
-            'config_project/data_source_priority_config.xlsx',
-            'config_project/time_tools_config.xlsx',
-            'config_path/data_update_path_config.xlsx',
+            'config/legacy/data_source_priority_config.xlsx',
+            'config/legacy/time_tools_config.xlsx',
+            'config/legacy/data_update_path_config.xlsx',
         ]
 
         for f in required_files:
@@ -293,8 +293,8 @@ class TestConfigurationValidation:
     def test_config_files_readable(self, project_dir):
         """测试配置文件可读取"""
         config_files = [
-            ('config_project/data_source_priority_config.xlsx', 'factor'),
-            ('config_project/time_tools_config.xlsx', 'critical_time'),
+            ('config/legacy/data_source_priority_config.xlsx', 'factor'),
+            ('config/legacy/time_tools_config.xlsx', 'critical_time'),
         ]
 
         for file_path, sheet_name in config_files:

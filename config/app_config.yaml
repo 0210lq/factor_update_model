@@ -75,7 +75,7 @@ paths:
       path: "Data_prepared_new"
       mode: "absolute"
     config_folder:
-      path: "config_project"
+      path: "config"
       mode: "relative"
     portfolio_folder:
       path: "Portfolio_new"
@@ -174,8 +174,8 @@ paths:
     database: "database.yaml"
     tables: "tables/dataUpdate_sql.yaml"
     # 以下为旧配置文件路径（兼容）
-    data_source_priority_legacy: "config_project/data_source_priority_config.xlsx"
-    time_tools_legacy: "config_project/time_tools_config.xlsx"
+    data_source_priority_legacy: "legacy/data_source_priority_config.xlsx"
+    time_tools_legacy: "legacy/time_tools_config.xlsx"
 
 # ------------------------------------------------------------
 # 指数映射配置

@@ -262,7 +262,7 @@ def generate_path_config():
             os.path.join(TEST_DATA_DIR, 'output'),
             os.path.join(TEST_DATA_DIR, 'output', 'timeseries'),
             TEST_DATA_DIR,
-            os.path.join(PROJECT_DIR, 'config_project')
+            os.path.join(PROJECT_DIR, 'config')
         ]
     }
     df_main = pd.DataFrame(main_folder_data)
@@ -315,9 +315,9 @@ def generate_path_config():
 
     # 配置文件路径
     config_mappings = [
-        ('data_source_priority', os.path.join(PROJECT_DIR, 'config_project', 'data_source_priority_config.xlsx')),
-        ('config_sql', os.path.join(PROJECT_DIR, 'config_project', 'sql_connection.yaml')),
-        ('time_tools_config', os.path.join(PROJECT_DIR, 'config_project', 'time_tools_config.xlsx')),
+        ('data_source_priority', os.path.join(PROJECT_DIR, 'config', 'legacy', 'data_source_priority_config.xlsx')),
+        ('config_sql', os.path.join(PROJECT_DIR, 'config', 'database.yaml')),
+        ('time_tools_config', os.path.join(PROJECT_DIR, 'config', 'legacy', 'time_tools_config.xlsx')),
     ]
 
     for data_type, path in config_mappings:
@@ -332,7 +332,7 @@ def generate_path_config():
     df_sub = pd.DataFrame(sub_folder_data)
 
     # 保存配置文件
-    config_path = os.path.join(PROJECT_DIR, 'config_path', 'data_update_path_config_test.xlsx')
+    config_path = os.path.join(PROJECT_DIR, 'config', 'legacy', 'data_update_path_config_test.xlsx')
     with pd.ExcelWriter(config_path, engine='openpyxl') as writer:
         df_main.to_excel(writer, sheet_name='main_folder', index=False)
         df_sub.to_excel(writer, sheet_name='sub_folder', index=False)

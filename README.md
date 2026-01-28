@@ -118,29 +118,47 @@ task = PythonOperator(
 factor_update_model/
 ├── factor_update_main.py       # 主入口
 ├── requirements.txt            # 依赖清单
+├── pytest.ini                  # 测试配置
 ├── src/                        # 源代码目录
 │   ├── factor_update/          # 因子更新核心
+│   │   ├── factor_update.py    # 因子更新主类
+│   │   └── factor_preparing.py # 数据准备
 │   ├── timeseries_update/      # 时间序列更新
 │   ├── time_tools/             # 时间工具
 │   ├── global_setting/         # 全局配置
 │   ├── setup_logger/           # 日志模块
-│   └── config/                 # 配置管理
+│   └── config/                 # 配置管理模块
+│       └── config_loader.py    # 配置加载器
 ├── config/                     # 配置文件目录
 │   ├── app_config.yaml         # 主配置文件
-│   ├── database.yaml           # 数据库连接（本地）
+│   ├── database.yaml           # 数据库连接（需本地创建）
 │   ├── database.yaml.example   # 数据库连接示例
 │   ├── tables/                 # 表定义
+│   │   ├── dataUpdate_sql.yaml
 │   │   └── dataUpdate_sql.yaml.example
 │   └── legacy/                 # 旧格式配置（兼容）
 │       ├── data_source_priority_config.xlsx
 │       ├── time_tools_config.xlsx
 │       └── data_update_path_config.xlsx
-├── docs/                       # 文档
+├── docs/                       # 文档目录
 │   ├── 部署指南.md
-│   └── 数据需求清单.md
+│   ├── 数据需求清单.md
+│   ├── 配置说明.md
+│   ├── MySQL数据库表结构.md
+│   ├── 配置重组总结.md
+│   ├── 数据更新验证.md
+│   ├── 测试框架说明.md
+│   ├── 代码更新说明.md
+│   └── ...                     # 其他文档
+├── tests/                      # 测试目录
+│   ├── conftest.py             # 测试配置
+│   ├── test_main.py            # 主模块测试
+│   ├── test_factor_update.py   # 因子更新测试
+│   └── ...                     # 其他测试
 └── scripts/                    # 工具脚本
     ├── generate_test_data.py   # 生成测试数据
-    └── run_test.py             # 运行测试
+    ├── run_test.py             # 运行测试
+    └── test_import.py          # 导入测试
 ```
 
 ---
@@ -231,7 +249,7 @@ database:
 - FactorIndexExposure
 - Indexygfactorexposure
 
-建表语句: `config_project/MySQL数据库表结构.md`
+建表语句: [`docs/MySQL数据库表结构.md`](docs/MySQL数据库表结构.md)
 
 ---
 
@@ -292,12 +310,17 @@ WARNING: factor_data在20250120数据存在缺失
 
 ## 文档
 
-- [部署指南](docs/部署指南.md) - 完整部署步骤
-- [数据需求清单](docs/数据需求清单.md) - 输入数据格式说明
-- [配置说明](docs/配置说明.md) - 数据库和路径配置详解
+| 文档 | 说明 |
+|------|------|
+| [部署指南](docs/部署指南.md) | 完整部署步骤 |
+| [配置说明](docs/配置说明.md) | 数据库和路径配置详解 |
+| [数据需求清单](docs/数据需求清单.md) | 输入数据格式说明 |
+| [MySQL数据库表结构](docs/MySQL数据库表结构.md) | 数据库建表语句 |
+| [测试框架说明](docs/测试框架说明.md) | 测试用例和运行方法 |
 
 ---
 
 ## 版本
 
+- v1.1 - 项目结构整理：统一代码到 src/，配置到 config/，文档到 docs/
 - v1.0 - 从 Data_update 项目独立部署

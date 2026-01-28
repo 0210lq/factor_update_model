@@ -29,7 +29,7 @@ class TestFactorDataUpdate:
     def test_module_import(self):
         """测试模块能否正常导入"""
         try:
-            from FactorData_update.factor_update import FactorData_update
+            from src.factor_update.factor_update import FactorData_update
             assert FactorData_update is not None
         except ImportError as e:
             pytest.skip(f"模块导入失败: {e}")
@@ -37,9 +37,9 @@ class TestFactorDataUpdate:
     @pytest.mark.unit
     def test_class_instantiation(self, mock_global_tools):
         """测试类能否正常实例化"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 assert fu.start_date == '2025-01-01'
@@ -51,9 +51,9 @@ class TestFactorDataUpdate:
     @pytest.mark.unit
     def test_source_priority_withdraw_method_exists(self, mock_global_tools):
         """测试 source_priority_withdraw 方法存在"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 assert hasattr(fu, 'source_priority_withdraw')
@@ -64,9 +64,9 @@ class TestFactorDataUpdate:
     @pytest.mark.unit
     def test_index_dic_processing_method(self, mock_global_tools):
         """测试 index_dic_processing 方法"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 dic = fu.index_dic_processing()
@@ -79,9 +79,9 @@ class TestFactorDataUpdate:
     @pytest.mark.unit
     def test_factor_update_main_method_exists(self, mock_global_tools):
         """测试 factor_update_main 方法存在"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 assert hasattr(fu, 'factor_update_main')
@@ -92,9 +92,9 @@ class TestFactorDataUpdate:
     @pytest.mark.unit
     def test_index_factor_update_main_method_exists(self, mock_global_tools):
         """测试 index_factor_update_main 方法存在"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 assert hasattr(fu, 'index_factor_update_main')
@@ -109,7 +109,7 @@ class TestDataSourcePriority:
     @pytest.mark.unit
     def test_priority_config_format(self, project_dir):
         """测试优先级配置文件格式"""
-        config_path = os.path.join(project_dir, 'config_project', 'data_source_priority_config.xlsx')
+        config_path = os.path.join(project_dir, 'config', 'legacy', 'data_source_priority_config.xlsx')
 
         if os.path.exists(config_path):
             df = pd.read_excel(config_path, sheet_name='factor')
@@ -123,7 +123,7 @@ class TestDataSourcePriority:
     @pytest.mark.unit
     def test_valid_source_names(self, project_dir):
         """测试数据源名称有效"""
-        config_path = os.path.join(project_dir, 'config_project', 'data_source_priority_config.xlsx')
+        config_path = os.path.join(project_dir, 'config', 'legacy', 'data_source_priority_config.xlsx')
         valid_sources = ['jy', 'wind']
 
         if os.path.exists(config_path):
@@ -191,8 +191,8 @@ class TestSQLIntegration:
     @pytest.mark.unit
     def test_sql_config_file_exists(self, project_dir):
         """测试 SQL 配置文件或示例文件存在"""
-        sql_config = os.path.join(project_dir, 'config_project', 'sql_connection.yaml')
-        sql_example = os.path.join(project_dir, 'config_project', 'sql_connection.yaml.example')
+        sql_config = os.path.join(project_dir, 'config', 'database.yaml')
+        sql_example = os.path.join(project_dir, 'config', 'database.yaml.example')
 
         assert os.path.exists(sql_config) or os.path.exists(sql_example), \
             "SQL 配置文件或示例文件应该存在"
@@ -200,9 +200,9 @@ class TestSQLIntegration:
     @pytest.mark.unit
     def test_is_sql_parameter_controls_db_write(self, mock_global_tools):
         """测试 is_sql 参数控制数据库写入"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
 
                 # is_sql=False 不应该触发数据库操作
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
@@ -221,9 +221,9 @@ class TestDateRangeHandling:
     @pytest.mark.unit
     def test_date_range_parsing(self, mock_global_tools):
         """测试日期范围解析"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
 
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
                 assert fu.start_date == '2025-01-01'
@@ -248,7 +248,7 @@ class TestLogging:
     def test_logger_setup(self):
         """测试日志设置"""
         try:
-            from setup_logger.logger_setup import setup_logger
+            from src.setup_logger.logger_setup import setup_logger
             logger = setup_logger('test_logger')
 
             assert logger is not None
@@ -262,7 +262,7 @@ class TestLogging:
     def test_logger_writes_to_file(self, tmp_path):
         """测试日志写入文件"""
         try:
-            from setup_logger.logger_setup import setup_logger
+            from src.setup_logger.logger_setup import setup_logger
             # 这个测试依赖于 setup_logger 的具体实现
             # 如果 setup_logger 创建文件日志，可以验证文件是否创建
             pass

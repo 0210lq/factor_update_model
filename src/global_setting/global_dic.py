@@ -3,7 +3,7 @@
 全局路径配置模块
 
 提供数据路径的全局配置管理。
-路径配置通过 config/config_path/data_update_path_config.xlsx 文件定义。
+路径配置通过 config/legacy/data_update_path_config.xlsx 文件定义。
 """
 
 import os
@@ -97,10 +97,6 @@ def config_path_processing():
 
     # 配置文件路径（统一目录结构）
     inputpath_config = project_root / 'config' / 'legacy' / 'data_update_path_config.xlsx'
-
-    # 兼容旧目录结构
-    if not inputpath_config.exists():
-        inputpath_config = project_root / 'config_path' / 'data_update_path_config.xlsx'
 
     try:
         df_sub = pd.read_excel(inputpath_config, sheet_name='sub_folder')

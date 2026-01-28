@@ -22,7 +22,7 @@ class TestTimeTools:
     def test_module_import(self):
         """测试模块能否正常导入"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             assert time_tools is not None
         except ImportError as e:
             pytest.skip(f"模块导入失败: {e}")
@@ -31,7 +31,7 @@ class TestTimeTools:
     def test_class_instantiation(self):
         """测试类能否正常实例化"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             assert tt is not None
         except ImportError:
@@ -41,7 +41,7 @@ class TestTimeTools:
     def test_time_zoom_decision_method_exists(self):
         """测试 time_zoom_decision 方法存在"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             assert hasattr(tt, 'time_zoom_decision')
             assert callable(tt.time_zoom_decision)
@@ -52,7 +52,7 @@ class TestTimeTools:
     def test_target_date_decision_score_exists(self):
         """测试 target_date_decision_score 方法存在"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             assert hasattr(tt, 'target_date_decision_score')
             assert callable(tt.target_date_decision_score)
@@ -63,7 +63,7 @@ class TestTimeTools:
     def test_target_date_decision_mkt_exists(self):
         """测试 target_date_decision_mkt 方法存在"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             assert hasattr(tt, 'target_date_decision_mkt')
             assert callable(tt.target_date_decision_mkt)
@@ -74,7 +74,7 @@ class TestTimeTools:
     def test_target_date_decision_factor_exists(self):
         """测试 target_date_decision_factor 方法存在"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             assert hasattr(tt, 'target_date_decision_factor')
             assert callable(tt.target_date_decision_factor)
@@ -119,9 +119,9 @@ class TestTimeToolsWithMock:
         """测试 time_zoom_decision 返回字符串"""
         mock_glv.get = MagicMock(return_value=mock_config)
 
-        with patch('Time_tools.time_tools.glv', mock_glv):
+        with patch('src.time_tools.time_tools.glv', mock_glv):
             try:
-                from Time_tools.time_tools import time_tools
+                from src.time_tools.time_tools import time_tools
                 tt = time_tools()
                 result = tt.time_zoom_decision()
                 assert isinstance(result, str)
@@ -132,7 +132,7 @@ class TestTimeToolsWithMock:
     def test_target_date_returns_valid_date_format(self):
         """测试目标日期返回有效的日期格式"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             tt = time_tools()
             result = tt.target_date_decision_factor()
 

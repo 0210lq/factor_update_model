@@ -63,10 +63,10 @@ class TestFactorDataPrepareBusinessLogic:
         """测试 stock_pool_processing 能正确匹配新股票池"""
         env = setup_complete_env
 
-        with patch('FactorData_update.factor_preparing.gt', env['mock_gt']), \
-             patch('FactorData_update.factor_preparing.glv', env['mock_glv']):
+        with patch('src.factor_update.factor_preparing.gt', env['mock_gt']), \
+             patch('src.factor_update.factor_preparing.glv', env['mock_glv']):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare(TEST_DATE)
 
@@ -85,10 +85,10 @@ class TestFactorDataPrepareBusinessLogic:
         """测试 stock_pool_processing 在长度不匹配时的行为"""
         env = setup_complete_env
 
-        with patch('FactorData_update.factor_preparing.gt', env['mock_gt']), \
-             patch('FactorData_update.factor_preparing.glv', env['mock_glv']):
+        with patch('src.factor_update.factor_preparing.gt', env['mock_gt']), \
+             patch('src.factor_update.factor_preparing.glv', env['mock_glv']):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare(TEST_DATE)
 
@@ -106,10 +106,10 @@ class TestFactorDataPrepareBusinessLogic:
         """测试因子暴露度输出中 country 列被正确删除"""
         env = setup_complete_env
 
-        with patch('FactorData_update.factor_preparing.gt', env['mock_gt']), \
-             patch('FactorData_update.factor_preparing.glv', env['mock_glv']):
+        with patch('src.factor_update.factor_preparing.gt', env['mock_gt']), \
+             patch('src.factor_update.factor_preparing.glv', env['mock_glv']):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare(TEST_DATE)
                 result = fp.jy_factor_exposure_update()
@@ -126,10 +126,10 @@ class TestFactorDataPrepareBusinessLogic:
         """测试因子收益率日期格式正确 (YYYY-MM-DD)"""
         env = setup_complete_env
 
-        with patch('FactorData_update.factor_preparing.gt', env['mock_gt']), \
-             patch('FactorData_update.factor_preparing.glv', env['mock_glv']):
+        with patch('src.factor_update.factor_preparing.gt', env['mock_gt']), \
+             patch('src.factor_update.factor_preparing.glv', env['mock_glv']):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare(TEST_DATE)
                 result = fp.jy_factor_return_update()
@@ -146,9 +146,9 @@ class TestFactorDataPrepareBusinessLogic:
     @pytest.mark.unit
     def test_index_dic_processing_returns_complete_mapping(self, mock_global_tools):
         """测试 index_dic_processing 返回完整的指数映射"""
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare(TEST_DATE)
                 dic = fp.index_dic_processing()
@@ -166,9 +166,9 @@ class TestFactorDataUpdateBusinessLogic:
     @pytest.mark.unit
     def test_date_fallback_logic(self, mock_global_tools):
         """测试日期回退逻辑 - 当输出目录为空时回退到 2023-06-01"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
 
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
@@ -181,16 +181,16 @@ class TestFactorDataUpdateBusinessLogic:
     @pytest.mark.unit
     def test_source_priority_returns_dataframe(self, mock_global_tools, project_dir):
         """测试数据源优先级配置返回 DataFrame"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
 
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
                 # 检查配置文件是否存在
                 config_paths = [
-                    os.path.join(project_dir, 'config_project', 'data_source_priority_config.xlsx'),
-                    os.path.join(project_dir, 'config', 'config_project', 'data_source_priority_config.xlsx')
+                    os.path.join(project_dir, 'config', 'legacy', 'data_source_priority_config.xlsx'),
+                    os.path.join(project_dir, 'config', 'legacy', 'data_source_priority_config.xlsx.bak')
                 ]
 
                 config_exists = any(os.path.exists(p) for p in config_paths)
@@ -207,9 +207,9 @@ class TestFactorDataUpdateBusinessLogic:
     @pytest.mark.unit
     def test_is_sql_false_does_not_create_sql_objects(self, mock_global_tools):
         """测试 is_sql=False 时不创建数据库连接对象"""
-        with patch('FactorData_update.factor_update.gt', mock_global_tools):
+        with patch('src.factor_update.factor_update.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_update import FactorData_update
+                from src.factor_update.factor_update import FactorData_update
 
                 fu = FactorData_update('2025-01-01', '2025-01-31', is_sql=False)
 
@@ -227,18 +227,18 @@ class TestTimeToolsBusinessLogic:
     def test_time_zoom_decision_returns_string(self, mock_global_tools, mock_glv, project_dir):
         """测试 time_zoom_decision 返回字符串"""
         config_paths = [
-            os.path.join(project_dir, 'config_project', 'time_tools_config.xlsx'),
-            os.path.join(project_dir, 'config', 'config_project', 'time_tools_config.xlsx')
+            os.path.join(project_dir, 'config', 'legacy', 'time_tools_config.xlsx'),
+            os.path.join(project_dir, 'config', 'legacy', 'time_tools_config.xlsx.bak')
         ]
 
         config_exists = any(os.path.exists(p) for p in config_paths)
         if not config_exists:
             pytest.skip("配置文件不存在")
 
-        with patch('Time_tools.time_tools.gt', mock_global_tools), \
-             patch('Time_tools.time_tools.glv', mock_glv):
+        with patch('src.time_tools.time_tools.gt', mock_global_tools), \
+             patch('src.time_tools.time_tools.glv', mock_glv):
             try:
-                from Time_tools.time_tools import time_tools
+                from src.time_tools.time_tools import time_tools
 
                 tt = time_tools()
                 result = tt.time_zoom_decision()
@@ -252,18 +252,18 @@ class TestTimeToolsBusinessLogic:
     def test_target_date_decision_returns_valid_date(self, mock_global_tools, mock_glv, project_dir):
         """测试目标日期决策返回有效日期格式"""
         config_paths = [
-            os.path.join(project_dir, 'config_project', 'time_tools_config.xlsx'),
-            os.path.join(project_dir, 'config', 'config_project', 'time_tools_config.xlsx')
+            os.path.join(project_dir, 'config', 'legacy', 'time_tools_config.xlsx'),
+            os.path.join(project_dir, 'config', 'legacy', 'time_tools_config.xlsx.bak')
         ]
 
         config_exists = any(os.path.exists(p) for p in config_paths)
         if not config_exists:
             pytest.skip("配置文件不存在")
 
-        with patch('Time_tools.time_tools.gt', mock_global_tools), \
-             patch('Time_tools.time_tools.glv', mock_glv):
+        with patch('src.time_tools.time_tools.gt', mock_global_tools), \
+             patch('src.time_tools.time_tools.glv', mock_glv):
             try:
-                from Time_tools.time_tools import time_tools
+                from src.time_tools.time_tools import time_tools
 
                 tt = time_tools()
                 result = tt.target_date_decision_factor()
@@ -339,10 +339,10 @@ class TestErrorHandling:
         mock_glv = MagicMock()
         mock_glv.get = lambda key: str(test_data_dir / 'nonexistent')
 
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools), \
-             patch('FactorData_update.factor_preparing.glv', mock_glv):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools), \
+             patch('src.factor_update.factor_preparing.glv', mock_glv):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 fp = FactorData_prepare('2099-12-31')  # 不存在的日期
                 result = fp.jy_factor_exposure_update()
@@ -355,9 +355,9 @@ class TestErrorHandling:
     @pytest.mark.unit
     def test_invalid_date_format_handling(self, mock_global_tools):
         """测试无效日期格式的处理"""
-        with patch('FactorData_update.factor_preparing.gt', mock_global_tools):
+        with patch('src.factor_update.factor_preparing.gt', mock_global_tools):
             try:
-                from FactorData_update.factor_preparing import FactorData_prepare
+                from src.factor_update.factor_preparing import FactorData_prepare
 
                 # 测试各种日期格式是否能正确转换
                 valid_formats = ['2025-01-20', '20250120']

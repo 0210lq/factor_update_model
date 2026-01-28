@@ -226,12 +226,8 @@ def mock_global_tools():
 @pytest.fixture
 def mock_glv(test_data_dir):
     """模拟 global_dic 模块的 get 函数"""
-    # 使用新的 config 目录结构
-    config_project_dir = os.path.join(PROJECT_DIR, 'config', 'config_project')
-
-    # 如果新目录不存在，使用旧目录
-    if not os.path.exists(config_project_dir):
-        config_project_dir = os.path.join(PROJECT_DIR, 'config_project')
+    # 使用新的 config/legacy 目录结构
+    config_legacy_dir = os.path.join(PROJECT_DIR, 'config', 'legacy')
 
     path_mapping = {
         'input_factor_jy': str(test_data_dir / 'input' / 'jy' / 'FactorRet'),
@@ -250,9 +246,9 @@ def mock_glv(test_data_dir):
         'output_indexexposure_yg': str(test_data_dir / 'output' / 'indexexposure_yg'),
         'output_indexcomponent': str(test_data_dir / 'indexcomponent'),
         'data_other': str(test_data_dir / 'other'),
-        'data_source_priority': os.path.join(config_project_dir, 'data_source_priority_config.xlsx'),
-        'config_sql': os.path.join(config_project_dir, 'sql_connection.yaml'),
-        'time_tools_config': os.path.join(config_project_dir, 'time_tools_config.xlsx'),
+        'data_source_priority': os.path.join(config_legacy_dir, 'data_source_priority_config.xlsx'),
+        'config_sql': os.path.join(PROJECT_DIR, 'config', 'database.yaml'),
+        'time_tools_config': os.path.join(config_legacy_dir, 'time_tools_config.xlsx'),
     }
 
     mock = MagicMock()

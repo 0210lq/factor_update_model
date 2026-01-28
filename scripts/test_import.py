@@ -85,8 +85,8 @@ else:
 # 测试4: 检查配置文件
 print("\n4. 检查配置文件...")
 config_files = {
-    'config_project/sql_connection.yaml': 'SQL连接配置',
-    'config_project/sql_connection.yaml.example': 'SQL连接配置示例',
+    'config/database.yaml': 'SQL连接配置',
+    'config/database.yaml.example': 'SQL连接配置示例',
 }
 
 for file_path, description in config_files.items():

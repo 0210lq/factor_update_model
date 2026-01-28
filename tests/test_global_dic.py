@@ -72,13 +72,13 @@ class TestGlobalDic:
     @pytest.mark.unit
     def test_path_config_file_exists(self, project_dir):
         """测试路径配置文件存在"""
-        config_path = os.path.join(project_dir, 'config_path', 'data_update_path_config.xlsx')
+        config_path = os.path.join(project_dir, 'config', 'legacy', 'data_update_path_config.xlsx')
         assert os.path.exists(config_path), f"配置文件不存在: {config_path}"
 
     @pytest.mark.unit
     def test_path_config_file_readable(self, project_dir):
         """测试路径配置文件可读取"""
-        config_path = os.path.join(project_dir, 'config_path', 'data_update_path_config.xlsx')
+        config_path = os.path.join(project_dir, 'config', 'legacy', 'data_update_path_config.xlsx')
         if os.path.exists(config_path):
             df_main = pd.read_excel(config_path, sheet_name='main_folder')
             df_sub = pd.read_excel(config_path, sheet_name='sub_folder')

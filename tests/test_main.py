@@ -145,7 +145,7 @@ class TestImportDependencies:
     def test_factordata_update_import(self):
         """测试 FactorData_update 类可导入"""
         try:
-            from FactorData_update.factor_update import FactorData_update
+            from src.factor_update.factor_update import FactorData_update
             assert FactorData_update is not None
         except ImportError as e:
             pytest.skip(f"导入失败: {e}")
@@ -154,7 +154,7 @@ class TestImportDependencies:
     def test_time_tools_import(self):
         """测试 time_tools 类可导入"""
         try:
-            from Time_tools.time_tools import time_tools
+            from src.time_tools.time_tools import time_tools
             assert time_tools is not None
         except ImportError as e:
             pytest.skip(f"导入失败: {e}")
@@ -163,7 +163,7 @@ class TestImportDependencies:
     def test_timeseries_data_update_import(self):
         """测试 timeSeries_data_update 类可导入"""
         try:
-            from TimeSeries_update.time_series_data_update import timeSeries_data_update
+            from src.timeseries_update.time_series_data_update import timeSeries_data_update
             assert timeSeries_data_update is not None
         except ImportError as e:
             pytest.skip(f"导入失败: {e}")
