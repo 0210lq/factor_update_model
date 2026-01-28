@@ -266,8 +266,8 @@ class FactorData_prepare:
             available_date2 = gt.strdate_transfer(self.available_date)
             df_component = gt.index_weight_withdraw(file_name, available_date2)
             print(df_component)
-            df_component= df_component[['code', 'weight', 'status']]
-            df_component = df_component[df_component['status'] == 1]
+            df_component= df_component[['code', 'weight']]
+            # df_component = df_component[df_component['status'] == 1]
             df_component.fillna(0,inplace=True)
             index_code_list = df_component['code'].tolist()
             slice_df_stock_universe = df_stockuniverse[df_stockuniverse['code'].isin(index_code_list)]
