@@ -204,9 +204,10 @@ def FactorData_update_main(is_sql=True, target_date=None, include_timeseries=Tru
     fu.FactorData_update_main()
 
     # 执行时间序列数据更新 (可选)
-    if include_timeseries:
-        tdu = timeSeries_data_update(start_date2, date)
-        tdu.Factordata_update_main()
+    # 注释原因：时序CSV不在本地生成，数据直接写入数据库
+    # if include_timeseries:
+    #     tdu = timeSeries_data_update(start_date2, date)
+    #     tdu.Factordata_update_main()
 
 
 def FactorData_history_update(start_date, end_date, is_sql=True, include_timeseries=True, verbose=False):
@@ -236,9 +237,10 @@ def FactorData_history_update(start_date, end_date, is_sql=True, include_timeser
     fu.FactorData_update_main()
 
     # 可选：更新时间序列数据
-    if include_timeseries:
-        tdu = timeSeries_data_update(start_date, end_date)
-        tdu.Factordata_update_main()
+    # 注释原因：时序CSV不在本地生成，数据直接写入数据库
+    # if include_timeseries:
+    #     tdu = timeSeries_data_update(start_date, end_date)
+    #     tdu.Factordata_update_main()
 
 
 def main():
