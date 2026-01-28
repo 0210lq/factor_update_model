@@ -247,8 +247,8 @@ class FactorData_prepare:
         inputpath_factor = glv.get('input_factor_jy')
         inputpath_stockuniverse = os.path.join(inputpath_stockuniverse, 'StockUniverse_new.csv')
         inputpath_factor = os.path.join(inputpath_factor, 'LNMODELACTIVE-' + str(self.available_date) + '.mat')
-        inputpath_indexcomponent = glv.get('output_indexcomponent')
-        inputpath_indexcomponent = os.path.join(inputpath_indexcomponent, file_name)
+        # inputpath_indexcomponent = glv.get('output_indexcomponent')
+        # inputpath_indexcomponent = os.path.join(inputpath_indexcomponent, file_name)
         df_stockuniverse = gt.readcsv(inputpath_stockuniverse)
         df_stockuniverse = df_stockuniverse[df_stockuniverse.columns.tolist()[:-2]]
         df_stockuniverse.rename(columns={'S_INFO_WINDCODE': 'code'}, inplace=True)
@@ -261,8 +261,11 @@ class FactorData_prepare:
             status = 0
         if status == 1:
             df_factor_exposure['code'] = stock_code
-            inputpath_indexcomponent = gt.file_withdraw(inputpath_indexcomponent, self.available_date)
-            df_component = gt.readcsv(inputpath_indexcomponent)
+            # inputpath_indexcomponent = gt.file_withdraw(inputpath_indexcomponent, self.available_date)
+            # df_component = gt.readcsv(inputpath_indexcomponent)
+            available_date2 = gt.strdate_transfer(self.available_date)
+            df_component = gt.index_weight_withdraw(file_name, available_date2)
+            print(df_component)
             df_component= df_component[['code', 'weight', 'status']]
             df_component = df_component[df_component['status'] == 1]
             df_component.fillna(0,inplace=True)
