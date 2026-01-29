@@ -35,8 +35,6 @@ data_source_priority:
   factor:
     - source_name: "jy"
       rank: 1
-    - source_name: "wind"
-      rank: 2
 
 # ------------------------------------------------------------
 # 时间工具配置
