@@ -30,9 +30,9 @@ class TestUnifiedConfig:
         """测试加载主配置文件"""
         from src.config.unified_config import config
 
-        # 应该能获取到 app 配置
-        app_name = config.get('app.name')
-        assert app_name is not None
+        # 应该能获取到 dates 配置
+        factor_fallback = config.get('dates.factor_fallback_start')
+        assert factor_fallback is not None
 
     @pytest.mark.unit
     def test_config_loads_database_config(self):
@@ -62,8 +62,8 @@ class TestUnifiedConfig:
         from src.config.unified_config import config
 
         # 访问嵌套配置
-        encoding = config.get('app.encoding')
-        assert encoding == 'gbk'
+        factor_fallback = config.get('dates.factor_fallback_start')
+        assert factor_fallback == '2023-06-01'
 
     @pytest.mark.unit
     def test_get_data_source_priority(self):
@@ -224,14 +224,13 @@ class TestUnifiedConfig:
 
     @pytest.mark.unit
     def test_get_logging_config(self):
-        """测试获取日志配置"""
+        """测试获取日志配置 - logging 配置已移除"""
         from src.config.unified_config import config
 
         log_config = config.get_logging_config()
 
+        # logging 配置已删除（未被代码使用），返回空字典
         assert isinstance(log_config, dict)
-        assert 'log_dir' in log_config
-        assert 'level' in log_config
 
     @pytest.mark.unit
     def test_get_project_root(self):
@@ -249,7 +248,7 @@ class TestUnifiedConfig:
         from src.config.unified_config import get_config, get_database_url
 
         # get_config
-        result = get_config('app.name')
+        result = get_config('dates.factor_fallback_start')
         assert result is not None
 
         # get_database_url

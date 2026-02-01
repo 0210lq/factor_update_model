@@ -22,6 +22,7 @@ import global_tools as gt
 import src.global_setting.global_dic as glv
 from src.factor_update.factor_preparing import FactorData_prepare
 from src.setup_logger.logger_setup import setup_logger
+from src.config.unified_config import config
 
 
 def capture_file_withdraw_output(func, *args, **kwargs):
@@ -47,9 +48,7 @@ class FactorData_update:
         return df_config
 
     def index_dic_processing(self):
-        dic_index = {'上证50': 'sz50', '沪深300': 'hs300', '中证500': 'zz500', '中证1000': 'zz1000',
-                     '中证2000': 'zz2000', '中证A500': 'zzA500','国证2000':'gz2000'}
-        return dic_index
+        return config.get_all_index_mapping('short')
 
     def factor_update_main(self):
         self.logger.info('\nProcessing factor_update_main...')
@@ -69,8 +68,9 @@ class FactorData_update:
         input_list4 = os.listdir(outputpath_factor_cov_base)
         input_list5 = os.listdir(outputpath_factor_risk_base)
         if len(input_list1)==0 or len(input_list2)==0 or len(input_list3)==0 or len(input_list4)==0 or len(input_list5)==0:
-            if self.start_date>'2023-06-01':
-                start_date='2023-06-01'
+            factor_fallback = config.get_fallback_date('factor')
+            if self.start_date > factor_fallback:
+                start_date = factor_fallback
             else:
                start_date=self.start_date
         else:
@@ -156,12 +156,13 @@ class FactorData_update:
             gt.folder_creator2(outputpath_factor_index1_base)
             input_list=os.listdir(outputpath_factor_index1_base)
             if len(input_list)==0:
-                if self.start_date > '2023-06-01':
-                    start_date = '2023-06-01'
+                factor_fallback = config.get_fallback_date('factor')
+                if self.start_date > factor_fallback:
+                    start_date = factor_fallback
                 else:
                     start_date = self.start_date
             else:
-                    start_date=self.start_date
+                start_date=self.start_date
             df_config = self.source_priority_withdraw()
             df_config.sort_values(by='rank', inplace=True)
             source_name_list = df_config['source_name'].tolist()
@@ -197,7 +198,8 @@ class FactorData_update:
         dic_index = self.index_dic_processing()
         index_name=dic_index[index_type]
         available_date2=gt.intdate_transfer(available_date)
-        if available_date2 <= '20200531':
+        jy_old_cutoff = config.get_fallback_date('jy_old_cutoff')
+        if available_date2 <= jy_old_cutoff:
             inputpath_factor = glv.get('input_factor_jy_old')
             type='old'
         else:
@@ -257,8 +259,9 @@ class FactorData_update:
         outputpath=glv.get('output_indexexposure_yg')
         gt.folder_creator2(outputpath)
         inputlist=os.listdir(outputpath)
-        if len(inputlist)==0 and self.start_date>'2024-07-05':
-            start_date='2024-07-05'
+        yg_factor_fallback = config.get_fallback_date('yg_factor')
+        if len(inputlist)==0 and self.start_date > yg_factor_fallback:
+            start_date = yg_factor_fallback
         else:
             start_date=self.start_date
         working_days_list=gt.working_days_list(start_date,self.end_date)

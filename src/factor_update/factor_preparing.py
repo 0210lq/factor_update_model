@@ -17,19 +17,17 @@ import global_tools as gt
 
 # 使用新的 src 路径
 import src.global_setting.global_dic as glv
+from src.config.unified_config import config
+
 class FactorData_prepare:
     def __init__(self,available_date):
         self.available_date=gt.intdate_transfer(available_date)
 
     def index_dic_processing(self):
-        dic_index = {'上证50': 'sz50Monthly', '沪深300': 'csi300Monthly', '中证500': 'zz500Monthly',
-                     '中证1000': 'zz1000Monthly', '中证2000': 'zz2000Monthly', '中证A500': 'zzA500Monthly','国证2000':'gz2000Monthly'}
-        return dic_index
+        return config.get_all_index_mapping('monthly')
 
     def index_dic_processing2(self):
-        dic_index = {'上证50': 'sz50', '沪深300': 'hs300', '中证500': 'zz500', '中证1000': 'zz1000',
-                     '中证2000': 'zz2000', '中证A500': 'zzA500','国证2000':'gz2000'}
-        return dic_index
+        return config.get_all_index_mapping('short')
     def stock_pool_processing(self,df):
         inputpath_stockuniverse = glv.get('data_other')
         inputpath_stockuniverse_new = os.path.join(inputpath_stockuniverse, 'StockUniverse_new.csv')

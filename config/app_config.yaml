@@ -9,14 +9,6 @@
 # ============================================================
 
 # ------------------------------------------------------------
-# 应用基础配置
-# ------------------------------------------------------------
-app:
-  name: "Factor Update Model"
-  version: "1.0.0"
-  encoding: "gbk"  # CSV 文件默认编码
-
-# ------------------------------------------------------------
 # 日期常量配置 (原代码中硬编码的日期)
 # ------------------------------------------------------------
 dates:
@@ -26,6 +18,13 @@ dates:
   yg_factor_fallback_start: "2024-07-05"
   # JY旧数据分界日期
   jy_old_data_cutoff: "20200531"
+
+# ------------------------------------------------------------
+# 更新配置
+# ------------------------------------------------------------
+update:
+  factor_rollback_days: 0
+  timeseries_rollback_days: 0
 
 # ------------------------------------------------------------
 # 数据源优先级配置
@@ -75,34 +74,9 @@ paths:
     config_folder:
       path: "config"
       mode: "relative"
-    portfolio_folder:
-      path: "Portfolio_new"
-      mode: "absolute"
-    l4_folder:
-      path: "OneDrive"
-      mode: "absolute"
 
   # === 输入路径 ===
   input:
-    # Wind 数据源
-    wind_stock: "data_wind/stockdata"
-    wind_hkstock: "data_wind/hkstockdata"
-    wind_indexdata: "data_wind/index_data"
-    wind_indexcomponent: "data_wind/index_component"
-    wind_etf: "data_wind/etf_data"
-    wind_future: "data_wind/future_data"
-    wind_option: "data_wind/option_data"
-
-    # JY 数据源
-    jy_stock: "data_jy/mktData"
-    jy_hkstock: "data_jy/input_new/RawHKMktData"
-    jy_indexdata: "data_jy/indexMktData"
-    jy_indexcomponent: "data_jy/index_component"
-
-    # Tushare 数据源
-    tushare_hkstock: "data_tushare/mkt_data/HKStockData"
-    tushare_indexdata: "data_tushare/index_data"
-
     # 因子数据
     factor_wind: "data_windDB/output_new/FactorRet"
     factor_jy: "data_jy/output_new/FactorRet"
@@ -114,34 +88,12 @@ paths:
     factor_specific_jy: "data_jy/specificrisk"
     factor_specific_wind: "data_windDB/specificrisk"
 
-    # 宏观数据
-    macro_m1m2: "data_macro/M1M2"
-    macro_shibor: "data_macro/Shibor"
-    macro_cpi: "data_macro/CPI"
-    macro_ppi: "data_macro/PPI"
-    macro_pmi: "data_macro/PMI"
-    macro_bonds: "data_macro/ChinaGovernmentBonds"
-    macro_social_finance: "data_macro/SocialFinance"
-
-    # 其他数据
-    vix: "data_vix"
-    large_order: "data_largeorder"
-    leverage_buying: "data_leveragebuying"
-
   # === 输出路径 ===
   output:
     # 指数相关
-    indexdata: "data_index/index_data"
     indexexposure: "data_index/index_exposure"
     indexexposure_yg: "data_index/index_ygexposure"
     indexcomponent: "data_index/index_component"
-
-    # 股票数据
-    stock: "data_stock"
-    hkstock: "data_hkstock"
-
-    # VIX
-    vix: "data_vix"
 
     # 因子数据输出
     factor_exposure: "data_factor/exposure"
@@ -150,23 +102,15 @@ paths:
     factor_cov: "data_factor/covariance"
     factor_specific_risk: "data_factor/specificrisk"
 
-    # ETF/期货/期权
-    etf: "data_etf"
-    future: "data_future"
-    option: "data_option"
-
     # 时间序列
     timeseries: "data_timeseries"
-
-    # 评分和组合
-    score: "data_score"
-    portfolio: "data_portfolio"
 
   # === 其他数据路径 ===
   other:
     stock_universe: "other/StockUniverse_new.csv"
     stock_universe_old: "other/StockUniverse.csv"
 
+<<<<<<< Updated upstream
   # === 配置文件路径 ===
   config:
     database: "database.yaml"
@@ -175,6 +119,8 @@ paths:
     data_source_priority_legacy: "legacy/data_source_priority_config.xlsx"
     time_tools_legacy: "legacy/time_tools_config.xlsx"
 
+=======
+>>>>>>> Stashed changes
 # ------------------------------------------------------------
 # 指数映射配置
 # ------------------------------------------------------------
@@ -258,27 +204,3 @@ factors:
     - "计算机"
     - "传媒"
     - "综合"
-
-# ------------------------------------------------------------
-# 日志配置
-# ------------------------------------------------------------
-logging:
-  # 日志目录
-  log_dir: "logs"
-  # 处理日志子目录
-  processing_log_dir: "processing_log"
-  # 数据检查日志子目录
-  datacheck_log_dir: "DataCheck_log"
-  # 日志格式
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  # 日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
-  level: "INFO"
-
-# ------------------------------------------------------------
-# 数据库批量写入配置
-# ------------------------------------------------------------
-database_batch:
-  # 默认批量大小
-  default_chunk_size: 20000
-  # 默认并行工作线程
-  default_workers: 4
