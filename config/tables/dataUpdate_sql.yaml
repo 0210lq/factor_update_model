@@ -10,7 +10,7 @@
 # ------------------------------------------------------------
 FactorExposrue:
   table_name: "data_factorexposure"
-  db_url: "${DB_URL}"  # 从环境变量或 database.yaml 获取
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"  # 从环境变量或 database.yaml 获取
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -68,7 +68,7 @@ FactorExposrue:
 # ------------------------------------------------------------
 FactorReturn:
   table_name: "data_factorreturn"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -124,7 +124,7 @@ FactorReturn:
 # ------------------------------------------------------------
 FactorPool:
   table_name: "data_factorpool"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -140,7 +140,7 @@ FactorPool:
 # ------------------------------------------------------------
 FactorCov:
   table_name: "data_factorcov"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -199,7 +199,7 @@ FactorCov:
 # ------------------------------------------------------------
 FactorSpecificrisk:
   table_name: "data_factorspecificrisk"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -216,7 +216,7 @@ FactorSpecificrisk:
 # ------------------------------------------------------------
 FactorIndexExposure:
   table_name: "data_factorindexexposure"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
@@ -274,7 +274,7 @@ FactorIndexExposure:
 # ------------------------------------------------------------
 Indexygfactorexposure:
   table_name: "data_indexother"
-  db_url: "${DB_URL}"
+  db_url: "mysql+pymysql://jzq:Abcd1234#@rm-cn-fhh4gzo9900083vo.rwlb.rds.aliyuncs.com:3306/data_prepared_jzq?autocommit=True"
   chunk_size: 20000
   workers: 4
   private_keys:
