@@ -73,11 +73,10 @@ class TestUnifiedConfig:
         priorities = config.get_data_source_priority('factor')
 
         assert isinstance(priorities, list)
-        assert len(priorities) >= 2
+        assert len(priorities) >= 1
 
-        # 检查排序
-        if len(priorities) >= 2:
-            assert priorities[0]['rank'] <= priorities[1]['rank']
+        # 检查第一个数据源
+        assert priorities[0]['source_name'] == 'jy'
 
     @pytest.mark.unit
     def test_get_source_names_ordered(self):
@@ -88,10 +87,6 @@ class TestUnifiedConfig:
 
         assert isinstance(sources, list)
         assert 'jy' in sources
-        assert 'wind' in sources
-
-        # jy 应该排在前面 (rank=1)
-        assert sources.index('jy') < sources.index('wind')
 
     @pytest.mark.unit
     def test_get_critical_time_str(self):

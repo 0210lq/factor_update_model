@@ -54,63 +54,6 @@ time_tools:
       description: "FactorData_update"
 
 # ------------------------------------------------------------
-# 路径配置
-# ------------------------------------------------------------
-# 路径模式说明:
-#   absolute: 绝对路径 (从磁盘根目录开始)
-#   relative: 相对路径 (从项目根目录开始)
-#   config:   配置相对路径 (从 config 目录开始)
-# ------------------------------------------------------------
-
-paths:
-  # === 基础目录 ===
-  base_folders:
-    input_folder:
-      path: "Data_Original"
-      mode: "absolute"
-    output_folder:
-      path: "Data_prepared_new"
-      mode: "absolute"
-    config_folder:
-      path: "config"
-      mode: "relative"
-
-  # === 输入路径 ===
-  input:
-    # 因子数据
-    factor_wind: "data_windDB/output_new/FactorRet"
-    factor_jy: "data_jy/output_new/FactorRet"
-    factor_jy_old: "data_jy/output_old/FactorRet"
-
-    # 协方差和特异风险
-    factor_cov_jy: "data_jy/covariance"
-    factor_cov_wind: "data_windDB/covariance"
-    factor_specific_jy: "data_jy/specificrisk"
-    factor_specific_wind: "data_windDB/specificrisk"
-
-  # === 输出路径 ===
-  output:
-    # 指数相关
-    indexexposure: "data_index/index_exposure"
-    indexexposure_yg: "data_index/index_ygexposure"
-    indexcomponent: "data_index/index_component"
-
-    # 因子数据输出
-    factor_exposure: "data_factor/exposure"
-    factor_return: "data_factor/return"
-    factor_stockpool: "data_factor/stockpool"
-    factor_cov: "data_factor/covariance"
-    factor_specific_risk: "data_factor/specificrisk"
-
-    # 时间序列
-    timeseries: "data_timeseries"
-
-  # === 其他数据路径 ===
-  other:
-    stock_universe: "other/StockUniverse_new.csv"
-    stock_universe_old: "other/StockUniverse.csv"
-
-# ------------------------------------------------------------
 # 指数映射配置
 # ------------------------------------------------------------
 index_mapping:
