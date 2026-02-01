@@ -34,6 +34,7 @@ env/
 # 配置文件（包含敏感信息）
 # 统一配置结构 (config/)
 config/database.yaml
+config/tables/dataUpdate_sql.yaml
 config/tables/dataUpdate_sql.yaml.local
 !config/database.yaml.example
 !config/app_config.yaml
