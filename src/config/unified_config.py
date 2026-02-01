@@ -3,16 +3,12 @@
 统一配置加载器
 
 整合了项目中的所有配置文件，提供统一的配置访问接口。
-支持新配置结构，同时兼容旧配置文件。
 
 使用方法:
     from src.config.unified_config import config
 
     # 获取数据库配置
     db_host = config.get('database.host')
-
-    # 获取路径配置
-    factor_jy_path = config.get_path('input.factor_jy')
 
     # 获取数据源优先级
     priorities = config.get_data_source_priority('factor')
@@ -22,6 +18,9 @@
 
     # 获取指数映射
     index_short = config.get_index_mapping('沪深300', 'short')
+
+    # 获取回退日期
+    fallback = config.get_fallback_date('factor')
 """
 
 import os
@@ -36,7 +35,7 @@ class UnifiedConfig:
     统一配置加载器 - 单例模式
 
     整合了以下配置：
-    - app_config.yaml: 主配置（路径、数据源、时间、常量）
+    - app_config.yaml: 主配置（数据源、时间、指数映射、因子、日期常量）
     - database.yaml: 数据库连接配置
     - tables/dataUpdate_sql.yaml: 数据表定义
     """
@@ -158,71 +157,6 @@ class UnifiedConfig:
                 return float(value)
             except ValueError:
                 return value
-
-    # ==================== 路径配置 ====================
-
-    def get_path(self, path_key: str, base_folder: str = None) -> str:
-        """
-        获取完整路径
-
-        Args:
-            path_key: 路径键 (如 'input.factor_jy', 'output.factor_exposure')
-            base_folder: 基础目录类型 ('input', 'output', 'config')
-
-        Returns:
-            完整路径字符串
-        """
-        paths_config = self._app_config.get('paths', {})
-
-        # 解析路径键
-        parts = path_key.split('.')
-        if len(parts) == 2:
-            category, name = parts
-        else:
-            category = None
-            name = path_key
-
-        # 获取相对路径
-        if category:
-            relative_path = paths_config.get(category, {}).get(name, '')
-        else:
-            # 在所有类别中查找
-            for cat in ['input', 'output', 'other', 'config']:
-                if name in paths_config.get(cat, {}):
-                    relative_path = paths_config[cat][name]
-                    category = cat
-                    break
-            else:
-                relative_path = ''
-
-        if not relative_path:
-            return ''
-
-        # 确定基础目录
-        base_folders = paths_config.get('base_folders', {})
-        if category == 'input':
-            base_info = base_folders.get('input_folder', {})
-        elif category == 'output':
-            base_info = base_folders.get('output_folder', {})
-        elif category == 'config':
-            base_info = base_folders.get('config_folder', {})
-        else:
-            base_info = base_folders.get('input_folder', {})
-
-        base_path = base_info.get('path', '')
-        mode = base_info.get('mode', 'relative')
-
-        # 构建完整路径
-        if mode == 'absolute':
-            # 绝对路径模式：从磁盘根目录开始
-            full_path = Path('D:/') / base_path / relative_path
-        elif mode == 'relative':
-            # 相对路径模式：从项目根目录开始
-            full_path = self._project_root / base_path / relative_path
-        else:
-            full_path = self._project_root / relative_path
-
-        return str(full_path)
 
     def get_project_root(self) -> Path:
         """获取项目根目录"""
@@ -398,36 +332,6 @@ class UnifiedConfig:
         """获取所有配置的数据表名称"""
         return list(self._tables_config.keys())
 
-    # ==================== 日志配置 ====================
-
-    def get_logging_config(self) -> Dict[str, Any]:
-        """获取日志配置"""
-        return self._app_config.get('logging', {})
-
-    # ==================== 批量写入配置 ====================
-
-    def get_batch_config(self) -> Dict[str, Any]:
-        """获取批量写入配置"""
-        return self._app_config.get('database_batch', {})
-
-    def get_chunk_size(self, table_name: str = None) -> int:
-        """获取批量写入大小"""
-        if table_name:
-            table_config = self.get_table_config(table_name)
-            if 'chunk_size' in table_config:
-                return table_config['chunk_size']
-
-        return self._app_config.get('database_batch', {}).get('default_chunk_size', 20000)
-
-    def get_workers(self, table_name: str = None) -> int:
-        """获取并行工作线程数"""
-        if table_name:
-            table_config = self.get_table_config(table_name)
-            if 'workers' in table_config:
-                return table_config['workers']
-
-        return self._app_config.get('database_batch', {}).get('default_workers', 4)
-
     # ==================== 配置重载 ====================
 
     def reload(self) -> None:
@@ -447,11 +351,6 @@ config = UnifiedConfig()
 def get_config(key: str, default: Any = None) -> Any:
     """获取配置值的便捷函数"""
     return config.get(key, default)
-
-
-def get_path(path_key: str) -> str:
-    """获取路径的便捷函数"""
-    return config.get_path(path_key)
 
 
 def get_database_url() -> str:

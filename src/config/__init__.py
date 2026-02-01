@@ -9,7 +9,6 @@ from .unified_config import (
     UnifiedConfig,
     config,
     get_config,
-    get_path,
     get_database_url,
 )
 
@@ -17,6 +16,5 @@ __all__ = [
     'UnifiedConfig',
     'config',
     'get_config',
-    'get_path',
     'get_database_url',
 ]

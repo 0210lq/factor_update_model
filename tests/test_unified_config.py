@@ -198,36 +198,6 @@ class TestUnifiedConfig:
             assert '@' in url
 
     @pytest.mark.unit
-    def test_get_chunk_size(self):
-        """测试获取批量写入大小"""
-        from src.config.unified_config import config
-
-        chunk_size = config.get_chunk_size()
-
-        assert isinstance(chunk_size, int)
-        assert chunk_size > 0
-
-    @pytest.mark.unit
-    def test_get_workers(self):
-        """测试获取并行工作线程数"""
-        from src.config.unified_config import config
-
-        workers = config.get_workers()
-
-        assert isinstance(workers, int)
-        assert workers > 0
-
-    @pytest.mark.unit
-    def test_get_logging_config(self):
-        """测试获取日志配置 - logging 配置已移除"""
-        from src.config.unified_config import config
-
-        log_config = config.get_logging_config()
-
-        # logging 配置已删除（未被代码使用），返回空字典
-        assert isinstance(log_config, dict)
-
-    @pytest.mark.unit
     def test_get_project_root(self):
         """测试获取项目根目录"""
         from src.config.unified_config import config
