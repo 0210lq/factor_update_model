@@ -110,17 +110,6 @@ paths:
     stock_universe: "other/StockUniverse_new.csv"
     stock_universe_old: "other/StockUniverse.csv"
 
-<<<<<<< Updated upstream
-  # === 配置文件路径 ===
-  config:
-    database: "database.yaml"
-    tables: "tables/dataUpdate_sql.yaml"
-    # 以下为旧配置文件路径（兼容）
-    data_source_priority_legacy: "legacy/data_source_priority_config.xlsx"
-    time_tools_legacy: "legacy/time_tools_config.xlsx"
-
-=======
->>>>>>> Stashed changes
 # ------------------------------------------------------------
 # 指数映射配置
 # ------------------------------------------------------------
